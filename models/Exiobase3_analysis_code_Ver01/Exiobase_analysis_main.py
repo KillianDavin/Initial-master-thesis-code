@@ -16,22 +16,24 @@ for n, year in enumerate(years):
     exiobase3 = pymrio.parse_exiobase3(path= file_path)
     S = pd.DataFrame(exiobase3.satellite.S)
     Y = pd.DataFrame(exiobase3.Y)
-    Y = Y.groupby(level= 0, axis = 1, sort = False).sum(1)
-    print(Y)
+    #Y = Y.groupby(level= 0, axis = 1, sort = False).sum(1)   ### All consumption categories included
+
+
 ##################################################################################################################################################################################################################
 
     '''Segregating the household consumption category from the Y tables'''
 
 ##################################################################################################################################################################################################################
+### If focusing on Household consumption only #####
 
     idx = pd.IndexSlice  # Slicing of multi index columns for separating out multiindex columns
-    '''Y = pd.DataFrame(
+    Y = pd.DataFrame(
         Y.loc[:, idx[:, 'Final consumption expenditure by households']])  # Seggregating final consumer household demand
     Y.columns = Y.columns.droplevel(1)
     print(Y)
     exiobase3.Y = pd.DataFrame(Y)  # New Y tables in terms of 'Final consumption by households only'
     print(exiobase3.Y)
-    '''
+
 ##################################################################################################################################################################################################################
 
     '''Segregating required stressors from S tables. Segregation is completed via index referencing of original tables.
@@ -46,7 +48,7 @@ for n, year in enumerate(years):
         climate_change_stressors = pd.DataFrame(S.iloc[
                                                 [23, 24, 25, 67, 68, 69, 70, 71, 72, 73, 74, 92, 93, 426, 427, 429, 435,
                                                  437, 438]])  # Climate change stressor rows
-        eutrophication_stressors = pd.DataFrame(S.iloc[[432, 433, 434, 440, 443]])  # Marine and Fresh eutrophication
+        eutrophication_stressors = pd.DataFrame(S.iloc[[428,432, 433, 434, 440, 443]])  # Marine and Fresh eutrophication
 
     # Aggregation of exiobase land use categories to LC-IMPACT categories
 
@@ -109,7 +111,7 @@ for n, year in enumerate(years):
         climate_change_stressors_S_Y = pd.DataFrame(S_Y.iloc[
                                                     [23, 24, 25, 67, 68, 69, 70, 71, 72, 73, 74, 92, 93, 426, 427, 429,
                                                      435, 437, 438]])  # Global warming stressor rows
-        eutrophication_stressors_S_Y = pd.DataFrame(S_Y.iloc[[432, 433, 434, 440, 443]])  # Marine and Fresh eutrophication
+        eutrophication_stressors_S_Y = pd.DataFrame(S_Y.iloc[[428,432, 433, 434, 440, 443]])  # Marine and Fresh eutrophication
 
     # Combining the aggregated land use stressor categories with the disaggregated land use stressors, and the stressors for the other impact categories being analysed. This is the final compiled stressor matrix.
 
@@ -300,7 +302,7 @@ for n, year in enumerate(years):
         water_stressors = pd.DataFrame(S.iloc[923:1026])  # Blue water consumption stressor rows
         print(water_stressors)
         climate_change_stressors = pd.DataFrame(S.iloc[[23, 24, 25, 67, 68, 69, 70, 71, 72, 73, 74, 92, 93, 426, 427, 429,435,437, 438]])  # Climate change stressor rows
-        eutrophication_stressors = pd.DataFrame(S.iloc[[432, 433, 434, 440, 443]])  # Marine and Fresh eutrophication
+        eutrophication_stressors = pd.DataFrame(S.iloc[[428,432, 433, 434, 440, 443]])  # Marine and Fresh eutrophication
 
         # Aggregation of fodder crops in exiobase land use categories to LC-IMPACT categories
 
@@ -326,7 +328,7 @@ for n, year in enumerate(years):
         Land_aggregated_df.drop(Land_aggregated_df.index[[2,3,4,5,6,13,14,15,16,17,18]], inplace= True)
         Individual_crop_stressor_names = list(Land_aggregated_df.index.values)
         landuse_list = (Annual_crop_df, Pasture_crop_df, Urban_df, Extensive_forestry_df, Intensive_forestry_df)
-        new_land_categories_index = ['Cereal grains Nec', 'Crops Nec','Oil seeds','Paddy rice','Plant-based fibers','Sugar','Vegetables, fruit, nuts ','Wheat' ,'Annual crops','Pasture', 'Urban', 'Extensive forestry', 'Intensive forestry']
+        new_land_categories_index = ['Cereal grains Nec', 'Crops Nec','Oil seeds','Paddy rice','Plant-based fibers','Sugar','Vegetables, fruit, nuts','Wheat' ,'Annual crops','Pasture', 'Urban', 'Extensive forestry', 'Intensive forestry']
         for i in landuse_list:
             Land_aggregated_df = Land_aggregated_df.append(
                 i)  # Appending Land_aggregated_df with each of the aggregated land use categories
@@ -362,7 +364,7 @@ for n, year in enumerate(years):
                                                          429,
                                                          435, 437, 438]])  # Global warming stressor rows
         eutrophication_stressors_S_Y = pd.DataFrame(
-            S_Y.iloc[[432, 433, 434, 440, 443]])  # Marine and Fresh eutrophication
+            S_Y.iloc[[428,432, 433, 434, 440, 443]])  # Marine and Fresh eutrophication
 
         # Combining the aggregated land use stressor categories with the disaggregated land use stressors, and the stressors for the other impact categories being analysed. This is the final compiled stressor matrix.
 
@@ -390,7 +392,7 @@ for n, year in enumerate(years):
         landuse_list = (
             Annual_crop_df_S_Y, Pasture_crop_df_S_Y, Urban_df_S_Y, Extensive_forestry_df_S_Y,
             Intensive_forestry_df_S_Y)
-        new_land_categories_index = ['Cereal grains Nec', 'Crops Nec','Oil seeds','Paddy rice','Plant-based fibers','Sugar','Vegetables, fruit, nuts ','Wheat' ,'Annual crops','Pasture', 'Urban', 'Extensive forestry', 'Intensive forestry']
+        new_land_categories_index = ['Cereal grains Nec', 'Crops Nec','Oil seeds','Paddy rice','Plant-based fibers','Sugar','Vegetables, fruit, nuts','Wheat' ,'Annual crops','Pasture', 'Urban', 'Extensive forestry', 'Intensive forestry']
         for i in landuse_list:
             Land_aggregated_df_S_Y = Land_aggregated_df_S_Y.append(
                 i)  # Appending Land_aggregated_df with each of the aggregated land use categories
@@ -521,7 +523,7 @@ for n, year in enumerate(years):
         D_exp.to_csv(myfile)
         D_exp = pd.DataFrame(D_exp.values, index=D_exp.index, columns=column_multi_index)
         TS_D_exp = pd.concat([TS_D_exp, D_exp], axis=1).reindex(D_exp.index)
-        #exiobase3.save_all('C:/Users/Cillian/PycharmProjects/Master-Thesis/data/interim/EXIO3')
+        exiobase3.save_all('C:/Users/Cillian/PycharmProjects/Master-Thesis/data/interim/EXIO3')
         import os
 
         myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/Raw/EXIO3/IOT_' + year + '_pxp.zip'

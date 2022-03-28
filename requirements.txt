@@ -1,0 +1,4 @@
+Naming Conventions
+#For data
+'Data_type'_'Data_Source'_'Ver_xx'
+Example 'Raw_EXIOBASE3.8.2_Ver_02'
