@@ -145,7 +145,7 @@ for n, year in enumerate(years):
 
     ### water consumption that is not agricultural ####
 
-    Get_index_S = list(exiobase3.satellite.S.iloc[926:1026,:].index.values)
+    Get_index_S = list(exiobase3.satellite.S.iloc[45:135,:].index.values)
     for water_consumption_type in Get_index_S:
         for country in countries_Exiobase3:
             exiobase3.satellite.S.loc[water_consumption_type, idx[country, :]] = exiobase3.satellite.S.loc[water_consumption_type, idx[country, :]].values * LC_Impact_CF_tables.loc['Water consumption - core', country]
@@ -175,13 +175,15 @@ for n, year in enumerate(years):
             exiobase3.satellite.S.loc[CO2_stressor, idx[country, :]] = exiobase3.satellite.S.loc[CO2_stressor, idx[country, :]] * LC_Impact_CF_tables.loc['Carbon dioxide (fossil) - core', country]
             exiobase3.satellite.S_Y.loc[CO2_stressor, idx[country, :]] = exiobase3.satellite.S_Y.loc[CO2_stressor, idx[country, :]] * LC_Impact_CF_tables.loc['Carbon dioxide (fossil) - core', country]
 
-    Get_index_S = list(exiobase3.satellite.S.iloc[67:75, :].index.values)
+    Get_index_S = list(exiobase3.satellite.S.iloc[16:24, :].index.values)
+    non_combustion_methane_stressors = ['CH4 - waste - air', 'CH4 - agriculture - air']
+    non_combustion_methane_stressors.extend(Get_index_S)
     for Fossil_CH4_stressor in ['CH4 - combustion - air']:
         for country in countries_Exiobase3:
             exiobase3.satellite.S.loc[Fossil_CH4_stressor, idx[country, :]] = exiobase3.satellite.S.loc[Fossil_CH4_stressor, idx[country, :]] * LC_Impact_CF_tables.loc['Fossil methane - core', country]
             exiobase3.satellite.S_Y.loc[Fossil_CH4_stressor, idx[country, :]] = exiobase3.satellite.S_Y.loc[Fossil_CH4_stressor, idx[country, :]] * LC_Impact_CF_tables.loc['Fossil methane - core', country]
 
-    for CH4_stressor in [Get_index_S,'CH4 - waste - air', 'CH4 - agriculture - air']  :
+    for CH4_stressor in (non_combustion_methane_stressors) :
         for country in countries_Exiobase3:
             exiobase3.satellite.S.loc[CH4_stressor, idx[country, :]] = exiobase3.satellite.S.loc[CH4_stressor, idx[country, :]] * LC_Impact_CF_tables.loc['Methane - core', country]
             exiobase3.satellite.S_Y.loc[CH4_stressor, idx[country, :]] = exiobase3.satellite.S_Y.loc[CH4_stressor, idx[country, :]] * LC_Impact_CF_tables.loc['Methane - core', country]
@@ -189,10 +191,10 @@ for n, year in enumerate(years):
     for N2O_stressor in ['N2O - combustion - air', 'N2O - agriculture - air']:
         for country in countries_Exiobase3:
             exiobase3.satellite.S.loc[N2O_stressor, idx[country, :]] = exiobase3.satellite.S.loc[N2O_stressor, idx[country, :]] * LC_Impact_CF_tables.loc['Nitrous oxide - core', country]
-            exiobase3.satellite.S.loc[N2O_stressor, idx[country, :]] = exiobase3.satellite.S.loc[N2O_stressor, idx[country, :]] * LC_Impact_CF_tables.loc['Nitrous oxide - core', country]
+            exiobase3.satellite.S_Y.loc[N2O_stressor, idx[country, :]] = exiobase3.satellite.S.loc[N2O_stressor, idx[country, :]] * LC_Impact_CF_tables.loc['Nitrous oxide - core', country]
 
     #Recombining the relevant stressor table for manipulation in footprint calculations
-
+    Get_index_S = list(exiobase3.satellite.S.iloc[45:135,:].index.values)
     Land_categories = ['Cereal grains Nec', 'Crops Nec', 'Oil seeds', 'Paddy rice', 'Plant-based fibers', 'Sugar', 'Vegetables, fruit, nuts', 'Wheat', 'Annual crops', 'Pasture', 'Urban','Extensive forestry', 'Intensive forestry' ]
     Water_categories = ['Water Consumption Blue - Agriculture - wheat', 'Water Consumption Blue - Agriculture - rice', 'Water Consumption Blue - Agriculture - other cereals',
                     'Water Consumption Blue - Agriculture - oil crops', 'Water Consumption Blue - Agriculture - sugar crops', 'Water Consumption Blue - Agriculture - fibres',
@@ -242,25 +244,9 @@ for n, year in enumerate(years):
                           'Products of meat cattle', 'Products of meat pigs', 'Products of meat poultry', 'Meat products nec', 'products of Vegetable oils and fats', 'Processed rice']]])  # Seggregating final consumer household demand
     myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Biodiversity Footprint/EXIO3/BF_D_cba_' + year + '_LCIA_new_Y_household.csv'
     D_cba_biod.to_csv(myfile)
-    ColumnX = list(D_cba_biod.columns.levels[0])
-    Column2 = []
-    Product_categories = ['Paddy rice', 'Wheat', 'Cereal grains nec', 'Vegetables, fruit, nuts', 'Oil seeds',
-                          'Sugar cane, sugar beet', 'Plant-based fibers', 'Crops nec', 'Cattle', 'Pigs', 'Poultry',
-                          'Meat animals nec', 'Animal products nec', 'Raw milk', 'Wool, silk-worm cocoons',
-                          'Products of forestry, logging and related services (02)',
-                          'Fish and other fishing products; services incidental of fishing (05)', 'Food products nec','Beverages', 'Sugar', 'Fish products', 'Dairy products',
-                          'Products of meat cattle', 'Products of meat pigs', 'Products of meat poultry', 'Meat products nec', 'products of Vegetable oils and fats', 'Processed rice']
 
-    Column2 = ColumnX * len(Product_categories)
 
-    Column3 = []
-    for i in range(0, len(Product_categories)):
-        Column3 += [Product_categories[i]] * 49
-    Column1 = [year] * len(Column2)
-    column_multi_index = pd.MultiIndex.from_arrays([Column1, Column2, Column3])
-    D_cba = pd.DataFrame(D_cba_biod.values, index=D_cba_biod.index, columns=column_multi_index)
 
-    myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Biodiversity Footprint/EXIO3/BF_D_pba_' + year + '_LCIA_new_Y_household.csv'
 
     exiobase3.satellite.D_pba = new_accounts[1]
     print(exiobase3.satellite.D_pba.shape)
@@ -273,8 +259,9 @@ for n, year in enumerate(years):
                           'Fish and other fishing products; services incidental of fishing (05)', 'Food products nec','Beverages', 'Sugar', 'Fish products', 'Dairy products',
                           'Products of meat cattle', 'Products of meat pigs', 'Products of meat poultry', 'Meat products nec', 'products of Vegetable oils and fats', 'Processed rice']]])  # Seggregating final consumer household demand
 
+    myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Biodiversity Footprint/EXIO3/BF_D_pba_' + year + '_LCIA_new_Y_household.csv'
     D_pba.to_csv(myfile)
-    D_pba = pd.DataFrame(D_pba.values, index=D_pba.index, columns=column_multi_index)
+
     exiobase3.satellite.D_imp = new_accounts[2]
     D_imp = pd.DataFrame(exiobase3.satellite.D_imp)
     D_imp = pd.DataFrame(
@@ -286,7 +273,6 @@ for n, year in enumerate(years):
                           'Products of meat cattle', 'Products of meat pigs', 'Products of meat poultry', 'Meat products nec', 'products of Vegetable oils and fats', 'Processed rice']]])  # Seggregating final consumer household demand
     myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Biodiversity Footprint/EXIO3/BF_D_imp_' + year + '_LCIA_new_Y_household.csv'
     D_imp.to_csv(myfile)
-    D_imp = pd.DataFrame(D_imp.values, index=D_imp.index, columns=column_multi_index)
 
     exiobase3.satellite.D_exp = new_accounts[3]
     D_exp = pd.DataFrame(exiobase3.satellite.D_exp)
@@ -300,7 +286,7 @@ for n, year in enumerate(years):
 
     myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Biodiversity Footprint/EXIO3/BF_D_exp_' + year + '_LCIA_new_Y_household.csv'
     D_exp.to_csv(myfile)
-    D_exp = pd.DataFrame(D_exp.values, index=D_exp.index, columns=column_multi_index)
+
     #exiobase3.save_all('C:/Users/Cillian/PycharmProjects/Master-Thesis/data/interim/EXIO3')
     import os
 
