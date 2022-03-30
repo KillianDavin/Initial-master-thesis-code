@@ -148,8 +148,8 @@ for n, year in enumerate(years):
     Get_index_S = list(exiobase3.satellite.S.iloc[45:135,:].index.values)
     for water_consumption_type in Get_index_S:
         for country in countries_Exiobase3:
-            exiobase3.satellite.S.loc[water_consumption_type, idx[country, :]] = exiobase3.satellite.S.loc[water_consumption_type, idx[country, :]].values * LC_Impact_CF_tables.loc['Water consumption - core', country]
-            exiobase3.satellite.S_Y.loc[water_consumption_type, idx[country, :]] = exiobase3.satellite.S_Y.loc[water_consumption_type, idx[country, :]].values * LC_Impact_CF_tables.loc['Water consumption - core', country]
+            exiobase3.satellite.S.loc[water_consumption_type, idx[country, :]] = exiobase3.satellite.S.loc[water_consumption_type, idx[country, :]].values * LC_Impact_CF_tables.loc['Water consumption - core ', country]
+            exiobase3.satellite.S_Y.loc[water_consumption_type, idx[country, :]] = exiobase3.satellite.S_Y.loc[water_consumption_type, idx[country, :]].values * LC_Impact_CF_tables.loc['Water consumption - core ', country]
 
     ### Eutrophication ###
 
