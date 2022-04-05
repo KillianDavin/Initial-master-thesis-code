@@ -2,10 +2,6 @@ import pymrio
 import pandas as pd
 type_of_analysis =input("What type of model run is this?:  ('Normal_LC_IMPACT': 'Disaggregated_LC_IMPACT')" )
 years = range(2010, 2011)
-TS_D_cba = pd.DataFrame()
-TS_D_pba = pd.DataFrame()
-TS_D_imp = pd.DataFrame()
-TS_D_exp = pd.DataFrame()
 for n, year in enumerate(years):
     print(n, year)
     exio3_folder = "C:/Users/Cillian/PycharmProjects/Master-Thesis/data/Raw/EXIO3"
@@ -188,7 +184,7 @@ for n, year in enumerate(years):
         exiobase3.Z = pymrio.calc_Z(exiobase3.A,
                                 exiobase3.x)  # Using PYMRIO functionality to calculate Z from A and x tables
 
-        exiobase3.satellite.F_Y = pd.DataFrame(pymrio.calc_F_Y(exiobase3.satellite.S_Y, exiobase3.Y.sum(0)))
+        exiobase3.satellite.F_Y = pd.DataFrame(pymrio.calc_F_Y(exiobase3.satellite.S_Y, pd.DataFrame(exiobase3.Y.sum(0)).T))
         print(exiobase3.satellite.F_Y.shape)
         exiobase3.satellite.F = pd.DataFrame(pymrio.calc_F(exiobase3.satellite.S, exiobase3.x))
         print(exiobase3.satellite.S)
@@ -203,41 +199,15 @@ for n, year in enumerate(years):
     new_accounts[0] = D_cba, new_accounts[1] = D_pba, new_accounts[2] = D_imp, new_accounts[3] = D_exp.'''
 
     ##################################################################################################################################################################################################################
-        new_accounts = pymrio.calc_accounts(exiobase3.satellite.S, exiobase3.L, exiobase3.Y, nr_sectors=200)
+        new_accounts = pymrio.calc_accounts(exiobase3.satellite.S, exiobase3.L, exiobase3.Y)
         exiobase3.satellite.D_cba = new_accounts[0]
         print(exiobase3.satellite.D_cba.shape)
         D_cba = pd.DataFrame(exiobase3.satellite.D_cba)
 
         D_cba = pd.DataFrame(
             D_cba.loc[:, idx[:, ['Paddy rice','Wheat','Cereal grains nec','Vegetables, fruit, nuts','Oil seeds','Sugar cane, sugar beet','Plant-based fibers','Crops nec','Cattle','Pigs', 'Poultry', 'Meat animals nec', 'Animal products nec','Raw milk','Wool, silk-worm cocoons','Products of forestry, logging and related services (02)','Fish and other fishing products; services incidental of fishing (05)']]])  # Seggregating final consumer household demand
-        D_cba.to_csv('D_cba_test.csv')
-        ColumnX = list(D_cba.columns.levels[0])
-        Column2 = []
-        Product_categories = ['Paddy rice','Wheat','Cereal grains nec','Vegetables, fruit, nuts','Oil seeds','Sugar cane, sugar beet','Plant-based fibers','Crops nec','Cattle','Pigs', 'Poultry', 'Meat animals nec', 'Animal products nec','Raw milk','Wool, silk-worm cocoons','Products of forestry, logging and related services (02)','Fish and other fishing products; services incidental of fishing (05)']
+        D_cba.to_csv('C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Pressure Footprint/EXIO3/PF_D_cba_210_LCIA_aggregated_household_Y_category.csv')
 
-        Column2 = ColumnX * len(Product_categories)
-
-        print(D_cba)
-        print(D_cba.shape)
-
-        Column3 = []
-        for i in range (0,len(Product_categories)):
-            Column3 += [Product_categories[i]]*49
-        Column1 = [year] * len(Column2)
-        print(len(Column1))
-        print(len(Column2))
-        print(len(Column3))
-        print(Column1)
-        print(Column2)
-        print(Column3)
-        column_multi_index = pd.MultiIndex.from_arrays([Column1,Column2,Column3])
-        D_cba = pd.DataFrame(D_cba.values, index=D_cba.index, columns= column_multi_index )
-        print(D_cba)
-        TS_D_cba = pd.concat([TS_D_cba,D_cba], axis=1).reindex(D_cba.index)
-        print(TS_D_cba)
-        print(TS_D_cba.shape)
-
-        TS_D_cba.to_csv('PF_D_cba.csv')
 
         exiobase3.satellite.D_pba = new_accounts[1]
         print(exiobase3.satellite.D_pba.shape)
@@ -249,9 +219,8 @@ for n, year in enumerate(years):
                              'Products of forestry, logging and related services (02)',
                              'Fish and other fishing products; services incidental of fishing (05)']]])  # Seggregating final consumer household demand
 
-        D_pba = pd.DataFrame(D_pba.values, index=D_pba.index, columns=column_multi_index)
-        TS_D_pba = pd.concat([TS_D_pba, D_pba], axis=1).reindex(D_pba.index)
-        TS_D_pba.to_csv('PF_D_pba.csv')
+
+        D_pba.to_csv('C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Pressure Footprint/EXIO3/PF_D_pba_2010_LCIA_aggregated_household_Y_category.csv')
         exiobase3.satellite.D_imp = new_accounts[2]
         print(exiobase3.satellite.D_imp.shape)
         D_imp = pd.DataFrame(exiobase3.satellite.D_imp)
@@ -262,11 +231,8 @@ for n, year in enumerate(years):
                              'Products of forestry, logging and related services (02)',
                              'Fish and other fishing products; services incidental of fishing (05)']]])  # Seggregating final consumer household demand
 
-        D_imp = pd.DataFrame(D_imp.values, index=D_imp.index, columns=column_multi_index)
-        TS_D_imp = pd.concat([TS_D_imp, D_imp], axis=1).reindex(D_imp.index)
-        TS_D_imp.to_csv('PF_D_imp.csv')
 
-
+        D_imp.to_csv('C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Pressure Footprint/EXIO3/PF_D_imp_2010_LCIA_aggregated_household_Y_category.csv')
         exiobase3.satellite.D_exp = new_accounts[3]
         print(exiobase3.satellite.D_exp.shape)
         D_exp = pd.DataFrame(exiobase3.satellite.D_exp)
@@ -277,15 +243,12 @@ for n, year in enumerate(years):
                              'Products of forestry, logging and related services (02)',
                              'Fish and other fishing products; services incidental of fishing (05)']]])  # Seggregating final consumer household demand
 
-        D_exp = pd.DataFrame(D_exp.values, index=D_exp.index, columns=column_multi_index)
-        TS_D_exp = pd.concat([TS_D_exp, D_exp], axis=1).reindex(D_exp.index)
-        TS_D_exp.to_csv('PF_D_exp.csv')
-
-        print(exiobase3.meta)
+        D_exp.to_csv(
+            'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Pressure Footprint/EXIO3/PF_D_exp_2010_LCIA_aggregated_household_Y_category.csv')
         import os
 
         myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/Raw/EXIO3/IOT_'+ year +'_pxp.zip'
-
+        exiobase3.save_all('C:/Users/Cillian/PycharmProjects/Master-Thesis/data/interim/EXIO3')
         ## If file exists, delete it ##
         if os.path.isfile('C:/Users/Cillian/PycharmProjects/Master-Thesis/data/Raw/EXIO3/IOT_'+ year +'_pxp.zip'):
             os.remove('C:/Users/Cillian/PycharmProjects/Master-Thesis/data/Raw/EXIO3/IOT_'+ year +'_pxp.zip')
@@ -439,7 +402,7 @@ for n, year in enumerate(years):
         exiobase3.Z = pymrio.calc_Z(exiobase3.A,
                                     exiobase3.x)  # Using PYMRIO functionality to calculate Z from A and x tables
 
-        exiobase3.satellite.F_Y = pd.DataFrame(pymrio.calc_F_Y(exiobase3.satellite.S_Y, exiobase3.Y.sum(0)))
+        exiobase3.satellite.F_Y = pd.DataFrame(pymrio.calc_F_Y(exiobase3.satellite.S_Y, pd.DataFrame(exiobase3.Y.sum(0)).T))
         exiobase3.satellite.F = pd.DataFrame(pymrio.calc_F(exiobase3.satellite.S, exiobase3.x))
         exiobase3.M = pd.DataFrame(pymrio.calc_M(exiobase3.satellite.S, exiobase3.L))
         ##################################################################################################################################################################################################################
@@ -459,7 +422,7 @@ for n, year in enumerate(years):
                                  'Poultry', 'Meat animals nec', 'Animal products nec', 'Raw milk',
                                  'Wool, silk-worm cocoons', 'Products of forestry, logging and related services (02)',
                                  'Fish and other fishing products; services incidental of fishing (05)']]])  # Seggregating final consumer household demand
-        myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Pressure Footprint/EXIO3/PF_D_cba_' + year + '_LCIA_new_All_Y_categories.csv'
+        myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Pressure Footprint/EXIO3/PF_D_cba_' + year + '_LCIA_disaggregated_household_Y_category.csv'
         D_cba.to_csv(myfile)
         ColumnX = list(D_cba.columns.levels[0])
         Column2 = []
@@ -479,7 +442,7 @@ for n, year in enumerate(years):
         D_cba = pd.DataFrame(D_cba.values, index=D_cba.index, columns=column_multi_index)
         TS_D_cba = pd.concat([TS_D_cba, D_cba], axis=1).reindex(D_cba.index)
 
-        myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Pressure Footprint/EXIO3/PF_D_pba_' + year + '_LCIA_new_All_Y_categories.csv'
+        myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Pressure Footprint/EXIO3/PF_D_pba_' + year + '_LCIA_disaggregated_household_Y_category.csv'
 
         exiobase3.satellite.D_pba = new_accounts[1]
         print(exiobase3.satellite.D_pba.shape)
@@ -504,7 +467,7 @@ for n, year in enumerate(years):
                                  'Meat animals nec', 'Animal products nec', 'Raw milk', 'Wool, silk-worm cocoons',
                                  'Products of forestry, logging and related services (02)',
                                  'Fish and other fishing products; services incidental of fishing (05)']]])  # Seggregating final consumer household demand
-        myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Pressure Footprint/EXIO3/PF_D_imp_' + year + '_LCIA_new_All_Y_categories.csv'
+        myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Pressure Footprint/EXIO3/PF_D_imp_' + year + '_LCIA_disaggregated_household_Y_category.csv'
         D_imp.to_csv(myfile)
         D_imp = pd.DataFrame(D_imp.values, index=D_imp.index, columns=column_multi_index)
         TS_D_imp = pd.concat([TS_D_imp, D_imp], axis=1).reindex(D_imp.index)
@@ -519,7 +482,7 @@ for n, year in enumerate(years):
                                  'Products of forestry, logging and related services (02)',
                                  'Fish and other fishing products; services incidental of fishing (05)']]])  # Seggregating final consumer household demand
 
-        myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Pressure Footprint/EXIO3/PF_D_exp_' + year + '_LCIA_new_All_Y_categories.csv'
+        myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Pressure Footprint/EXIO3/PF_D_exp_' + year + '_LCIA_disaggregated_household_Y_category.csv'
         D_exp.to_csv(myfile)
         D_exp = pd.DataFrame(D_exp.values, index=D_exp.index, columns=column_multi_index)
         TS_D_exp = pd.concat([TS_D_exp, D_exp], axis=1).reindex(D_exp.index)

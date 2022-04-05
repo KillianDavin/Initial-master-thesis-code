@@ -43,6 +43,7 @@ for n, year in enumerate(years):
     CF_tables.rename(index = {'Permanent crops ': 'Permanent crops', 'Pasture ':'Pasture', 'Urban ':'Urban', 'Extensive forestry ': 'Extensive forestry', 'Intensive forestry ': 'Intensive forestry'}, inplace= True)
     CF_tables.rename(columns = iso3_to_full_names_dict, inplace = True)
     CF_tables.iloc[0:6,2:] = CF_tables.iloc[0:6,2:].values * 10 ** 6  # conversion from m2 to km2 for land Characterisations, index 0-6 are the land CFs in the table
+    CF_tables.iloc[22:24, 2:] = CF_tables.iloc[22:24,2:].values * 10 ** 6  # conversion from PDF/m3 to PDF/Mm3
 
     countries_Exiobase3 = list(CF_tables.columns.values)
     countries_Exiobase3.pop(0)
@@ -132,7 +133,7 @@ for n, year in enumerate(years):
     S_land_occupation.set_axis(['Annual crops', 'Permanent crops', 'Pasture', 'Urban', 'Extensive forestry', 'Intensive forestry'], axis = 'index', inplace= True)
     S_Y_land_occupation.set_axis(['Annual crops', 'Permanent crops', 'Pasture', 'Urban', 'Extensive forestry', 'Intensive forestry'],axis='index', inplace= True)
     print(S_land_occupation)
-
+    S_land_occupation.to_csv("C:/Users/Cillian/PycharmProjects/Master-Thesis/data/Raw/EXIO3/check_land_.csv")
 
 
 ################################################################################################################################################################################
@@ -146,8 +147,8 @@ for n, year in enumerate(years):
 
     for land_type in ('Annual crops', 'Permanent crops', 'Pasture', 'Urban', 'Extensive forestry', 'Intensive forestry'):  # There are 6 land categories to be characterized
         for country in countries_Exiobase3:
-            S_land_occupation.loc[land_type, country] = S_land_occupation.loc[land_type, country] * CF_tables.loc[land_type, country]  # matching EXIOBASE indexing with that of the CF_tables
-            S_Y_land_occupation.loc[land_type, country] = S_Y_land_occupation.loc[land_type, country] * CF_tables.loc[land_type, country]  # matching EXIOBASE indexing with that of the CF_tables
+            S_land_occupation.loc[land_type, country] = S_land_occupation.loc[land_type, country].values * CF_tables.loc[land_type, country]  # matching EXIOBASE indexing with that of the CF_tables
+            S_Y_land_occupation.loc[land_type, country] = S_Y_land_occupation.loc[land_type, country].values * CF_tables.loc[land_type, country]  # matching EXIOBASE indexing with that of the CF_tables
 
             ### Climate Change ###
 
@@ -155,66 +156,69 @@ for n, year in enumerate(years):
                                  'CO2 - non combustion - Lime production - air', 'CO2 - waste - biogenic - air',
                                  'CO2 - waste - fossil - air', 'CO2 - agriculture - peat decay - air']:
         for country in countries_Exiobase3:
-            S_climate_change.loc[CO2_stressor, country] = S_climate_change.loc[CO2_stressor, country] * CF_tables.loc['Carbon dioxide (fossil) - core', country]
-            S_Y_climate_change.loc[CO2_stressor, country] = S_Y_climate_change.loc[CO2_stressor, country] * CF_tables.loc['Carbon dioxide (fossil) - core', country]
-
+            S_climate_change.loc[CO2_stressor, country] = S_climate_change.loc[CO2_stressor, country].values * CF_tables.loc['Carbon dioxide (fossil) - core', country]
+            S_Y_climate_change.loc[CO2_stressor, country] = S_Y_climate_change.loc[CO2_stressor, country].values * CF_tables.loc['Carbon dioxide (fossil) - core', country]
+            print(S_climate_change)
     Get_index_S = list(exiobase3.satellite.S.iloc[16:24, :].index.values)
     CH4_stressor_list = ['CH4 - waste - air', 'CH4 - agriculture - air']
     CH4_stressor_list.extend(Get_index_S)
     print(CH4_stressor_list)
     for Fossil_CH4_stressor in ['CH4 - combustion - air']:
         for country in countries_Exiobase3:
-            S_climate_change.loc[Fossil_CH4_stressor, country] = S_climate_change.loc[Fossil_CH4_stressor, country] * CF_tables.loc['Fossil methane - core', country]
-            S_Y_climate_change.loc[Fossil_CH4_stressor, country] = S_Y_climate_change.loc[Fossil_CH4_stressor, country] * CF_tables.loc['Fossil methane - core', country]
+            S_climate_change.loc[Fossil_CH4_stressor, country] = S_climate_change.loc[Fossil_CH4_stressor, country].values * CF_tables.loc['Fossil methane - core', country]
+            S_Y_climate_change.loc[Fossil_CH4_stressor, country] = S_Y_climate_change.loc[Fossil_CH4_stressor, country].values * CF_tables.loc['Fossil methane - core', country]
 
     for CH4_stressor in (CH4_stressor_list)  :
         for country in countries_Exiobase3:
-            S_climate_change.loc[CH4_stressor, country] = S_climate_change.loc[CH4_stressor, country] * CF_tables.loc['Methane - core', country]
-            S_Y_climate_change.loc[CH4_stressor, country] = S_Y_climate_change.loc[CH4_stressor, country] * CF_tables.loc['Methane - core', country]
+            S_climate_change.loc[CH4_stressor, country] = S_climate_change.loc[CH4_stressor, country].values * CF_tables.loc['Methane - core', country]
+            S_Y_climate_change.loc[CH4_stressor, country] = S_Y_climate_change.loc[CH4_stressor, country].values * CF_tables.loc['Methane - core', country]
 
     for N2O_stressor in ['N2O - combustion - air', 'N2O - agriculture - air']:
         for country in countries_Exiobase3:
-            S_climate_change.loc[N2O_stressor, country] = S_climate_change.loc[N2O_stressor, country] * CF_tables.loc['Nitrous oxide - core', country]
-            S_Y_climate_change.loc[N2O_stressor, country] = S_Y_climate_change.loc[N2O_stressor, country] * CF_tables.loc['Nitrous oxide - core', country]
+            S_climate_change.loc[N2O_stressor, country] = S_climate_change.loc[N2O_stressor, country].values * CF_tables.loc['Nitrous oxide - core', country]
+            S_Y_climate_change.loc[N2O_stressor, country] = S_Y_climate_change.loc[N2O_stressor, country].values * CF_tables.loc['Nitrous oxide - core', country]
 
 
     index = list(S_water_consumption.index.values)
     for water_consumption in index:
         for country in countries_Exiobase3:
-            S_water_consumption.loc[water_consumption,country] = S_water_consumption.loc[water_consumption,country] * CF_tables.loc['Water consumption - core ', country]
-            S_Y_water_consumption.loc[water_consumption,country] = S_Y_water_consumption.loc[water_consumption,country] * CF_tables.loc['Water consumption - core ', country]
+            S_water_consumption.loc[water_consumption,country] = S_water_consumption.loc[water_consumption,country].values * CF_tables.loc['Water consumption - core ', country]
+            S_Y_water_consumption.loc[water_consumption,country] = S_Y_water_consumption.loc[water_consumption,country].values * CF_tables.loc['Water consumption - core ', country]
 
     for eutrophication_pollution in ['P - agriculture - water', 'P - waste - water']:
         for country in countries_Exiobase3:
-            S_freshwater_eutrophication.loc[eutrophication_pollution,country] = S_freshwater_eutrophication.loc[eutrophication_pollution,country] * CF_tables.loc['P emission to water ', country]
-            S_Y_freshwater_eutrophication.loc[eutrophication_pollution,country] = S_Y_freshwater_eutrophication.loc[eutrophication_pollution,country] * CF_tables.loc['P emission to water ', country]
+            S_freshwater_eutrophication.loc[eutrophication_pollution,country] = S_freshwater_eutrophication.loc[eutrophication_pollution,country].values * CF_tables.loc['P emission to water ', country]
+            S_Y_freshwater_eutrophication.loc[eutrophication_pollution,country] = S_Y_freshwater_eutrophication.loc[eutrophication_pollution,country].values * CF_tables.loc['P emission to water ', country]
 
     for eutrophication_pollution in ['P - agriculture - soil', 'Pxx - agriculture - soil']:
         for country in countries_Exiobase3:
-            S_freshwater_eutrophication.loc[eutrophication_pollution, country] = S_freshwater_eutrophication.loc[eutrophication_pollution,country] * CF_tables.loc['P emission to soil ', country]
-            S_Y_freshwater_eutrophication.loc[eutrophication_pollution, country] = S_Y_freshwater_eutrophication.loc[eutrophication_pollution,country] * CF_tables.loc['P emission to soil ', country]
+            S_freshwater_eutrophication.loc[eutrophication_pollution, country] = S_freshwater_eutrophication.loc[eutrophication_pollution,country].values * CF_tables.loc['P emission to soil ', country]
+            S_Y_freshwater_eutrophication.loc[eutrophication_pollution, country] = S_Y_freshwater_eutrophication.loc[eutrophication_pollution,country].values * CF_tables.loc['P emission to soil ', country]
 
     for eutrophication_pollution in ['N - agriculture - water', 'N - waste - water']:
         for country in countries_Exiobase3:
-            S_marine_eutrophication.loc[eutrophication_pollution, country] = S_marine_eutrophication.loc[eutrophication_pollution,country] * CF_tables.loc['N emissions to freshwater', country]
-            S_Y_marine_eutrophication.loc[eutrophication_pollution, country] = S_Y_marine_eutrophication.loc[eutrophication_pollution,country] * CF_tables.loc['N emissions to freshwater', country]
+            S_marine_eutrophication.loc[eutrophication_pollution, country] = S_marine_eutrophication.loc[eutrophication_pollution,country].values * CF_tables.loc['N emissions to freshwater', country]
+            S_Y_marine_eutrophication.loc[eutrophication_pollution, country] = S_Y_marine_eutrophication.loc[eutrophication_pollution,country].values * CF_tables.loc['N emissions to freshwater', country]
 
 
 
     Char_table_S = pd.DataFrame(S_land_occupation)  # New characterized S tables
     Char_table_S_Y = pd.DataFrame(S_Y_land_occupation)
     Stressor_tables = [S_climate_change, S_water_consumption, S_freshwater_eutrophication, S_marine_eutrophication]
+    print(Stressor_tables)
     S_Y_stressor_tables = [S_Y_climate_change, S_Y_water_consumption, S_Y_freshwater_eutrophication, S_Y_marine_eutrophication]
 
     for stressor in Stressor_tables:
         Char_table_S = Char_table_S.append(stressor)  # Fully formed - New characterized S tables
-
+        print(Char_table_S)
+    Char_table_S = Char_table_S.astype(float)
     for stressor in S_Y_stressor_tables:
         Char_table_S_Y = Char_table_S_Y.append(stressor)
+    Char_table_S_Y = Char_table_S_Y.astype(float)
 
     exiobase3.satellite.S = pd.DataFrame(Char_table_S)
     exiobase3.satellite.S_Y = pd.DataFrame(Char_table_S_Y)
-
+    exiobase3.satellite.S.to_csv("C:/Users/Cillian/PycharmProjects/Master-Thesis/data/Raw/EXIO3/check_S.csv")
 
     ######################################################################################################################################################################################################################################
 
@@ -250,7 +254,7 @@ for n, year in enumerate(years):
                           'Products of forestry, logging and related services (02)',
                           'Fish and other fishing products; services incidental of fishing (05)', 'Food products nec','Beverages', 'Sugar', 'Fish products', 'Dairy products',
                           'Products of meat cattle', 'Products of meat pigs', 'Products of meat poultry', 'Meat products nec', 'products of Vegetable oils and fats', 'Processed rice']]])  # Seggregating final consumer household demand
-    myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Biodiversity Footprint/EXIO3/BF_D_cba_' + year + '_LCIA_aggregated_Y_household.csv'
+    myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Biodiversity Footprint/EXIO3/BF_D_cba_' + year + '_LCIA_aggregated_All_Y_categories.csv'
     D_cba_biod.to_csv(myfile)
 
     D_pba_biod = pd.DataFrame(new_accounts[1])
@@ -264,7 +268,7 @@ for n, year in enumerate(years):
                           'Products of forestry, logging and related services (02)',
                           'Fish and other fishing products; services incidental of fishing (05)', 'Food products nec','Beverages', 'Sugar', 'Fish products', 'Dairy products',
                           'Products of meat cattle', 'Products of meat pigs', 'Products of meat poultry', 'Meat products nec', 'products of Vegetable oils and fats', 'Processed rice']]])  # Seggregating final consumer household demand
-    myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Biodiversity Footprint/EXIO3/BF_D_pba_' + year + '_LCIA_aggregated_Y_household.csv'
+    myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Biodiversity Footprint/EXIO3/BF_D_pba_' + year + '_LCIA_aggregated_All_Y_categories.csv'
     D_pba_biod.to_csv(myfile)
 
 
@@ -278,7 +282,7 @@ for n, year in enumerate(years):
                           'Products of forestry, logging and related services (02)',
                           'Fish and other fishing products; services incidental of fishing (05)', 'Food products nec','Beverages', 'Sugar', 'Fish products', 'Dairy products',
                           'Products of meat cattle', 'Products of meat pigs', 'Products of meat poultry', 'Meat products nec', 'products of Vegetable oils and fats', 'Processed rice']]])  # Seggregating final consumer household demand
-    myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Biodiversity Footprint/EXIO3/BF_D_imp_' + year + '_LCIA_aggregated_Y_household.csv'
+    myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Biodiversity Footprint/EXIO3/BF_D_imp_' + year + '_LCIA_aggregated_All_Y_categories.csv'
     D_imp_biod.to_csv(myfile)
     D_exp_biod = pd.DataFrame(new_accounts[3])
     D_exp_biod = pd.DataFrame(D_exp_biod)
@@ -290,7 +294,7 @@ for n, year in enumerate(years):
                           'Products of forestry, logging and related services (02)',
                           'Fish and other fishing products; services incidental of fishing (05)', 'Food products nec','Beverages', 'Sugar', 'Fish products', 'Dairy products',
                           'Products of meat cattle', 'Products of meat pigs', 'Products of meat poultry', 'Meat products nec', 'products of Vegetable oils and fats', 'Processed rice']]])  # Seggregating final consumer household demand
-    myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Biodiversity Footprint/EXIO3/BF_D_exp_' + year + '_LCIA_aggregated_Y_household.csv'
+    myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Biodiversity Footprint/EXIO3/BF_D_exp_' + year + '_LCIA_aggregated_All_Y_categories.csv'
     D_exp_biod.to_csv(myfile)
 
 

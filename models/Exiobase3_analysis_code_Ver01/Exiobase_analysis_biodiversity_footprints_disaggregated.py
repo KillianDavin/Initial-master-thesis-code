@@ -134,18 +134,16 @@ for n, year in enumerate(years):
             exiobase3.satellite.S.loc[water_consumption, idx[country, :]]  = exiobase3.satellite.S.loc[water_consumption, idx[country, :]].values * Water_CF_tables.loc[water_consumption,country]
             exiobase3.satellite.S_Y.loc[water_consumption, idx[country, :]]  = exiobase3.satellite.S_Y.loc[water_consumption, idx[country, :]].values * Water_CF_tables.loc[water_consumption,country]
 
-    exiobase3.satellite.S.loc['Water Consumption Blue - Agriculture - vegetables', idx[country, :]] = exiobase3.satellite.S.loc['Water Consumption Blue - Agriculture - vegetables', idx[country, :]].values * Water_CF_tables.loc['Water Consumption Blue - Agriculture - Vegetables, fruit, nuts',country]
-    exiobase3.satellite.S.loc['Water Consumption Blue - Agriculture - fruits', idx[country, :]] = exiobase3.satellite.S.loc['Water Consumption Blue - Agriculture - fruits', idx[country, :]].values * Water_CF_tables.loc['Water Consumption Blue - Agriculture - Vegetables, fruit, nuts',country]
-    exiobase3.satellite.S.loc['Water Consumption Blue - Agriculture - nuts', idx[country, :]] = exiobase3.satellite.S.loc['Water Consumption Blue - Agriculture - nuts', idx[country, :]].values * Water_CF_tables.loc['Water Consumption Blue - Agriculture - Vegetables, fruit, nuts',country]
-    exiobase3.satellite.S.loc['Water Consumption Blue - Agriculture - pulses', idx[country, :]] = exiobase3.satellite.S.loc['Water Consumption Blue - Agriculture - pulses', idx[country, :]].values * Water_CF_tables.loc['Water Consumption Blue - Agriculture - Vegetables, fruit, nuts',country]
-    exiobase3.satellite.S_Y.loc['Water Consumption Blue - Agriculture - vegetables', idx[country, :]] = exiobase3.satellite.S_Y.loc['Water Consumption Blue - Agriculture - vegetables', idx[country, :]].values * Water_CF_tables.loc['Water Consumption Blue - Agriculture - Vegetables, fruit, nuts',country]
-    exiobase3.satellite.S_Y.loc['Water Consumption Blue - Agriculture - fruits', idx[country, :]] = exiobase3.satellite.S_Y.loc['Water Consumption Blue - Agriculture - fruits', idx[country, :]].values * Water_CF_tables.loc['Water Consumption Blue - Agriculture - Vegetables, fruit, nuts',country]
-    exiobase3.satellite.S_Y.loc['Water Consumption Blue - Agriculture - nuts', idx[country, :]] = exiobase3.satellite.S_Y.loc['Water Consumption Blue - Agriculture - nuts', idx[country, :]].values * Water_CF_tables.loc['Water Consumption Blue - Agriculture - Vegetables, fruit, nuts',country]
-    exiobase3.satellite.S_Y.loc['Water Consumption Blue - Agriculture - pulses', idx[country, :]] = exiobase3.satellite.S_Y.loc['Water Consumption Blue - Agriculture - pulses', idx[country, :]].values * Water_CF_tables.loc['Water Consumption Blue - Agriculture - Vegetables, fruit, nuts',country]
+    for water_consumption in ['Water Consumption Blue - Agriculture - vegetables','Water Consumption Blue - Agriculture - fruits', 'Water Consumption Blue - Agriculture - nuts', 'Water Consumption Blue - Agriculture - pulses','Water Consumption Blue - Agriculture - roots and tubers']:
+        for country in countries_Exiobase3:
+            exiobase3.satellite.S.loc[water_consumption, idx[country, :]] = exiobase3.satellite.S.loc[water_consumption, idx[country, :]].values * Water_CF_tables.loc['Water Consumption Blue - Agriculture - Vegetables, fruit, nuts',country]
+            exiobase3.satellite.S_Y.loc[water_consumption, idx[country, :]] = exiobase3.satellite.S_Y.loc[water_consumption, idx[country, :]].values * Water_CF_tables.loc['Water Consumption Blue - Agriculture - Vegetables, fruit, nuts',country]
 
     ### water consumption that is not agricultural ####
 
     Get_index_S = list(exiobase3.satellite.S.iloc[45:135,:].index.values)
+    print(Get_index_S)
+
     for water_consumption_type in Get_index_S:
         for country in countries_Exiobase3:
             exiobase3.satellite.S.loc[water_consumption_type, idx[country, :]] = exiobase3.satellite.S.loc[water_consumption_type, idx[country, :]].values * LC_Impact_CF_tables.loc['Water consumption - core ', country]
@@ -199,10 +197,11 @@ for n, year in enumerate(years):
     Water_categories = ['Water Consumption Blue - Agriculture - wheat', 'Water Consumption Blue - Agriculture - rice', 'Water Consumption Blue - Agriculture - other cereals',
                     'Water Consumption Blue - Agriculture - oil crops', 'Water Consumption Blue - Agriculture - sugar crops', 'Water Consumption Blue - Agriculture - fibres',
                     'Water Consumption Blue - Agriculture - other crops', 'Water Consumption Blue - Agriculture - fodder crops', 'Water Consumption Blue - Agriculture - vegetables',
-                    'Water Consumption Blue - Agriculture - fruits', 'Water Consumption Blue - Agriculture - nuts', 'Water Consumption Blue - Agriculture - pulses']
+                    'Water Consumption Blue - Agriculture - fruits', 'Water Consumption Blue - Agriculture - nuts', 'Water Consumption Blue - Agriculture - pulses', 'Water Consumption Blue - Agriculture - roots and tubers']
     Water_categories.extend(Get_index_S)
     Climate_categories = ['CO2 - combustion - air','CO2 - non combustion - Cement production - air','CO2 - non combustion - Lime production - air', 'CO2 - waste - biogenic - air','CO2 - waste - fossil - air', 'CO2 - agriculture - peat decay - air',
-                      'CH4 - combustion - air', 'CH4 - waste - air', 'CH4 - agriculture - air', 'N2O - combustion - air', 'N2O - agriculture - air'  ]
+                      'CH4 - combustion - air', 'N2O - combustion - air', 'N2O - agriculture - air'  ]
+    Climate_categories.extend(non_combustion_methane_stressors)
 
     Eutrophication_categories = ['P - agriculture - water', 'P - waste - water', 'P - agriculture - soil', 'Pxx - agriculture - soil', 'N - agriculture - water', 'N - waste - water'  ]
 
@@ -242,7 +241,7 @@ for n, year in enumerate(years):
                           'Products of forestry, logging and related services (02)',
                           'Fish and other fishing products; services incidental of fishing (05)', 'Food products nec','Beverages', 'Sugar', 'Fish products', 'Dairy products',
                           'Products of meat cattle', 'Products of meat pigs', 'Products of meat poultry', 'Meat products nec', 'products of Vegetable oils and fats', 'Processed rice']]])  # Seggregating final consumer household demand
-    myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Biodiversity Footprint/EXIO3/BF_D_cba_' + year + '_LCIA_new_Y_household.csv'
+    myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Biodiversity Footprint/EXIO3/BF_D_cba_' + year + '_LCIA_disaggregated_All_Y_categories.csv'
     D_cba_biod.to_csv(myfile)
 
 
@@ -259,7 +258,7 @@ for n, year in enumerate(years):
                           'Fish and other fishing products; services incidental of fishing (05)', 'Food products nec','Beverages', 'Sugar', 'Fish products', 'Dairy products',
                           'Products of meat cattle', 'Products of meat pigs', 'Products of meat poultry', 'Meat products nec', 'products of Vegetable oils and fats', 'Processed rice']]])  # Seggregating final consumer household demand
 
-    myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Biodiversity Footprint/EXIO3/BF_D_pba_' + year + '_LCIA_new_Y_household.csv'
+    myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Biodiversity Footprint/EXIO3/BF_D_pba_' + year + '_LCIA_disaggregated_All_Y_categories.csv'
     D_pba.to_csv(myfile)
 
     exiobase3.satellite.D_imp = new_accounts[2]
@@ -271,7 +270,7 @@ for n, year in enumerate(years):
                           'Products of forestry, logging and related services (02)',
                           'Fish and other fishing products; services incidental of fishing (05)', 'Food products nec','Beverages', 'Sugar', 'Fish products', 'Dairy products',
                           'Products of meat cattle', 'Products of meat pigs', 'Products of meat poultry', 'Meat products nec', 'products of Vegetable oils and fats', 'Processed rice']]])  # Seggregating final consumer household demand
-    myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Biodiversity Footprint/EXIO3/BF_D_imp_' + year + '_LCIA_new_Y_household.csv'
+    myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Biodiversity Footprint/EXIO3/BF_D_imp_' + year + '_LCIA_disaggregated_All_Y_categories.csv'
     D_imp.to_csv(myfile)
 
     exiobase3.satellite.D_exp = new_accounts[3]
@@ -284,7 +283,7 @@ for n, year in enumerate(years):
                           'Fish and other fishing products; services incidental of fishing (05)', 'Food products nec','Beverages', 'Sugar', 'Fish products', 'Dairy products',
                           'Products of meat cattle', 'Products of meat pigs', 'Products of meat poultry', 'Meat products nec', 'products of Vegetable oils and fats', 'Processed rice']]])  # Seggregating final consumer household demand
 
-    myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Biodiversity Footprint/EXIO3/BF_D_exp_' + year + '_LCIA_new_Y_household.csv'
+    myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Biodiversity Footprint/EXIO3/BF_D_exp_' + year + '_LCIA_disaggregated_household_All_Y_categories.csv'
     D_exp.to_csv(myfile)
 
     #exiobase3.save_all('C:/Users/Cillian/PycharmProjects/Master-Thesis/data/interim/EXIO3')
@@ -298,4 +297,4 @@ for n, year in enumerate(years):
         #os.remove('C:/Users/Cillian/PycharmProjects/Master-Thesis/data/Raw/EXIO3/IOT_' + year + '_pxp.zip')
     #else:  ## Show an error ##
         #print("Error: file not found")
-    #del exiobase3
+    #del exiobase3 '''
