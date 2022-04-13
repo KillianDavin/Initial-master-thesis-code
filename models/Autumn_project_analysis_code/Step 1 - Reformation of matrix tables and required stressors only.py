@@ -22,10 +22,14 @@ for n, year in enumerate(years):
     Y = pd.DataFrame(exiobase3.Y)
     # Y = Y.groupby(level= 0, axis = 1, sort = False).sum(1)   ### All consumption categories included
     idx = pd.IndexSlice  # Slicing of multi index columns for separating out multiindex columns
-
+    #Y = pd.DataFrame(
+        #Y.loc[:, idx[:, 'Final consumption expenditure by households']])  # Seggregating final consumer household demand
+    #Y.columns = Y.columns.droplevel(1)
+    #exiobase3.Y = pd.DataFrame(Y)  # New Y tables in terms of 'Final consumption by households only'
 ##################################################################################################################
 ''' Seggregating desired final demand categories'''
 ##################################################################################################################
+
 Desired_final_demand_categories = pd.DataFrame(Y.loc[idx[:, ['Paddy rice', 'Wheat', 'Cereal grains nec', 'Vegetables, fruit, nuts', 'Oil seeds',
                     'Sugar cane, sugar beet', 'Plant-based fibers', 'Crops nec', 'Cattle', 'Pigs', 'Poultry',
                     'Meat animals nec', 'Animal products nec', 'Raw milk', 'Wool, silk-worm cocoons',
@@ -147,7 +151,7 @@ for i in stressor_list_S_Y :
     exiobase3.satellite.S_Y = exiobase3.satellite.S_Y.append(i)
 
 #exiobase3.satellite.S_Y = pd.DataFrame(exiobase3.satellite.S_Y.loc[:,idx[:,'Final consumption expenditure by households']])  #Seggregating final consumer househould expenditure
-
+#exiobase3.satellite.S_Y = pd.DataFrame(exiobase3.satellite.S_Y.loc[:, idx[:,'Final consumption expenditure by households']])  # Seggregating final consumer househould expenditure
 S_Y = pd.DataFrame(exiobase3.satellite.S_Y)
 
 
@@ -194,7 +198,7 @@ CF Tables for the median approach will be loaded when median approach footprints
 Layout of the CF tables can be seen in Appendix C of the project literature'''
 
 ##############################################################################################################################################
-CF_tables = pd.read_csv('C:/Users/Cillian/OneDrive - NTNU/Documents/NTNU project documents/CF sheets/Land_characterisation_thesis/Full_CF_table_average_approach.csv')
+CF_tables = pd.read_csv('C:/Users/Cillian/OneDrive - NTNU/Documents/NTNU project documents/CF sheets/Land_characterisation_thesis/Full_CF_table_median_approach.csv')
 index_labels = list(CF_tables.iloc[0:,0])
 stressor_index_label = list(CF_tables.iloc[0:,1])
 unit_labels_index = list(CF_tables.iloc[0:,2])
@@ -432,7 +436,7 @@ D_cba = pd.DataFrame(D_cba.loc[:, idx[:, ['Paddy rice', 'Wheat', 'Cereal grains 
                           'Products of forestry, logging and related services (02)',
                           'Fish and other fishing products; services incidental of fishing (05)', 'Food products nec','Beverages', 'Sugar', 'Fish products', 'Dairy products',
                           'Products of meat cattle', 'Products of meat pigs', 'Products of meat poultry', 'Meat products nec', 'products of Vegetable oils and fats', 'Processed rice']]])
-D_cba.to_csv('C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Autumn Project 2021/Biodiversity Footprint/BF_D_cba_2010_LCIA_Y_categories_agrifood_final_demand_average_approach.csv.csv')
+D_cba.to_csv('C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Autumn Project 2021/Biodiversity Footprint/BF_D_cba_2010_LCIA_Y_categories_agrifood_final_demand_median_approach.csv')
 
 D_pba = pd.DataFrame(new_accounts[1])
 D_pba = pd.DataFrame(D_pba.loc[:, idx[:, ['Paddy rice', 'Wheat', 'Cereal grains nec', 'Vegetables, fruit, nuts', 'Oil seeds',
@@ -441,7 +445,7 @@ D_pba = pd.DataFrame(D_pba.loc[:, idx[:, ['Paddy rice', 'Wheat', 'Cereal grains 
                           'Products of forestry, logging and related services (02)',
                           'Fish and other fishing products; services incidental of fishing (05)', 'Food products nec','Beverages', 'Sugar', 'Fish products', 'Dairy products',
                           'Products of meat cattle', 'Products of meat pigs', 'Products of meat poultry', 'Meat products nec', 'products of Vegetable oils and fats', 'Processed rice']]])
-D_pba.to_csv('C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Autumn Project 2021/Biodiversity Footprint/BF_D_pba_2010_LCIA_Y_categories_agrifood_final_demand_average_approach.csv')
+D_pba.to_csv('C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Autumn Project 2021/Biodiversity Footprint/BF_D_pba_2010_LCIA_Y_categories_agrifood_final_demand_median_approach.csv')
 
 D_imp = pd.DataFrame(new_accounts[2])
 D_imp = pd.DataFrame(D_imp.loc[:, idx[:, ['Paddy rice', 'Wheat', 'Cereal grains nec', 'Vegetables, fruit, nuts', 'Oil seeds',
@@ -451,7 +455,7 @@ D_imp = pd.DataFrame(D_imp.loc[:, idx[:, ['Paddy rice', 'Wheat', 'Cereal grains 
                           'Fish and other fishing products; services incidental of fishing (05)', 'Food products nec','Beverages', 'Sugar', 'Fish products', 'Dairy products',
                           'Products of meat cattle', 'Products of meat pigs', 'Products of meat poultry', 'Meat products nec', 'products of Vegetable oils and fats', 'Processed rice']]])
 
-D_imp.to_csv('C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Autumn Project 2021/Biodiversity Footprint/BF_D_imp_2010_LCIA_Y_categories_agrifood_final_demand_average_approach.csv')
+D_imp.to_csv('C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Autumn Project 2021/Biodiversity Footprint/BF_D_imp_2010_LCIA_Y_categories_agrifood_final_demand_median_approach.csv')
 
 D_exp = pd.DataFrame(new_accounts[3])
 D_exp = pd.DataFrame(D_exp.loc[:, idx[:, ['Paddy rice', 'Wheat', 'Cereal grains nec', 'Vegetables, fruit, nuts', 'Oil seeds',
@@ -461,6 +465,6 @@ D_exp = pd.DataFrame(D_exp.loc[:, idx[:, ['Paddy rice', 'Wheat', 'Cereal grains 
                           'Fish and other fishing products; services incidental of fishing (05)', 'Food products nec','Beverages', 'Sugar', 'Fish products', 'Dairy products',
                           'Products of meat cattle', 'Products of meat pigs', 'Products of meat poultry', 'Meat products nec', 'products of Vegetable oils and fats', 'Processed rice']]])
 
-D_exp.to_csv('C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Autumn Project 2021/Biodiversity Footprint/BF_D_exp_2010_LCIA_Y_categories_agrifood_final_demand_average_approach.csv')
+D_exp.to_csv('C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Autumn Project 2021/Biodiversity Footprint/BF_D_exp_2010_LCIA_Y_categories_agrifood_final_demand_median_approach.csv')
 
 

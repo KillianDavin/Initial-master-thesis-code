@@ -440,7 +440,6 @@ for n, year in enumerate(years):
         Column1 = [year] * len(Column2)
         column_multi_index = pd.MultiIndex.from_arrays([Column1, Column2, Column3])
         D_cba = pd.DataFrame(D_cba.values, index=D_cba.index, columns=column_multi_index)
-        TS_D_cba = pd.concat([TS_D_cba, D_cba], axis=1).reindex(D_cba.index)
 
         myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Pressure Footprint/EXIO3/PF_D_pba_' + year + '_LCIA_disaggregated_household_Y_category.csv'
 
@@ -457,7 +456,6 @@ for n, year in enumerate(years):
 
         D_pba.to_csv(myfile)
         D_pba = pd.DataFrame(D_pba.values, index=D_pba.index, columns=column_multi_index)
-        TS_D_pba = pd.concat([TS_D_pba, D_pba], axis=1).reindex(D_pba.index)
         exiobase3.satellite.D_imp = new_accounts[2]
         D_imp = pd.DataFrame(exiobase3.satellite.D_imp)
         D_imp = pd.DataFrame(
@@ -470,7 +468,6 @@ for n, year in enumerate(years):
         myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Pressure Footprint/EXIO3/PF_D_imp_' + year + '_LCIA_disaggregated_household_Y_category.csv'
         D_imp.to_csv(myfile)
         D_imp = pd.DataFrame(D_imp.values, index=D_imp.index, columns=column_multi_index)
-        TS_D_imp = pd.concat([TS_D_imp, D_imp], axis=1).reindex(D_imp.index)
 
         exiobase3.satellite.D_exp = new_accounts[3]
         D_exp = pd.DataFrame(exiobase3.satellite.D_exp)
@@ -485,7 +482,6 @@ for n, year in enumerate(years):
         myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Pressure Footprint/EXIO3/PF_D_exp_' + year + '_LCIA_disaggregated_household_Y_category.csv'
         D_exp.to_csv(myfile)
         D_exp = pd.DataFrame(D_exp.values, index=D_exp.index, columns=column_multi_index)
-        TS_D_exp = pd.concat([TS_D_exp, D_exp], axis=1).reindex(D_exp.index)
         exiobase3.save_all('C:/Users/Cillian/PycharmProjects/Master-Thesis/data/interim/EXIO3')
         import os
 

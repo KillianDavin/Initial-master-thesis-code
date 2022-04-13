@@ -176,7 +176,7 @@ for n, year in enumerate(years):
         exiobase3.Z = pymrio.calc_Z(exiobase3.A,
                                 exiobase3.x)  # Using PYMRIO functionality to calculate Z from A and x tables
 
-        exiobase3.satellite.F_Y = pd.DataFrame(pymrio.calc_F_Y(exiendobase3.satellite.S_Y, pd.DataFrame(exiobase3.Y.sum(0)).T))
+        exiobase3.satellite.F_Y = pd.DataFrame(pymrio.calc_F_Y(exiobase3.satellite.S_Y, pd.DataFrame(exiobase3.Y.sum(0)).T))
         print(exiobase3.satellite.F_Y.shape)
         exiobase3.satellite.F = pd.DataFrame(pymrio.calc_F(exiobase3.satellite.S, exiobase3.x))
         print(exiobase3.satellite.S)

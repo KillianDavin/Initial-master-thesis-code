@@ -1,10 +1,7 @@
 import pymrio
 import pandas as pd
 years = range(2010, 2011)
-TS_D_cba_biod = pd.DataFrame()
-TS_D_pba_biod = pd.DataFrame()
-TS_D_imp_biod = pd.DataFrame()
-TS_D_exp_biod = pd.DataFrame()
+
 type_of_analysis =input("What type of model run is this?:  ('Normal_LC_IMPACT': 'Disaggregated_LC_IMPACT')" )
 #################################################################################################################################################################
 
@@ -50,7 +47,7 @@ Land_CF_tables = Land_CF_tables* (
 
 print(Land_CF_tables)
 
-LC_Impact_CF_tables = pd.read_csv('C:/Users/Cillian/OneDrive - NTNU/Documents/NTNU project documents/CF sheets/Land_characterisation_thesis/Full_CF_table_median_approach.csv')
+LC_Impact_CF_tables = pd.read_csv('C:/Users/Cillian/OneDrive - NTNU/Documents/NTNU project documents/CF sheets/Land_characterisation_thesis/Full_CF_table_continental_proxy_approach.csv')
 LC_Impact_CF_tables.set_index('Stressor name', inplace = True)
 LC_Impact_CF_tables.rename(index = {'Permanent crops ': 'Permanent crops', 'Pasture ':'Pasture', 'Urban ':'Urban', 'Extensive forestry ': 'Extensive forestry', 'Intensive forestry ': 'Intensive forestry'}, inplace= True)
 LC_Impact_CF_tables.rename(columns = iso3_to_full_names_dict, inplace = True)
@@ -61,8 +58,9 @@ countries_Exiobase3.pop(0)
 countries_Exiobase3.pop(0)
 
 print(list(LC_Impact_CF_tables.index))
-Water_CF_tables = pd.read_csv('C:/Users/Cillian/OneDrive - NTNU/Documents/NTNU project documents/ArcGIS_shapefiles_MT2022/GIS_layers_output/Final_sheets_for_Exiobase/Watershed_aggregated_national_and_ROW_level_characterisation_factors_ver01.csv')
+Water_CF_tables = pd.read_csv('C:/Users/Cillian/OneDrive - NTNU/Documents/NTNU project documents/ArcGIS_shapefiles_MT2022/GIS_layers_output/Final_sheets_for_Exiobase/Watershed_aggregated_national_and_ROW_level_characterisation_factors_ver03.csv')
 Water_CF_tables.set_index('Crop Type', inplace = True)
+Water_CF_tables = Water_CF_tables.astype(float)
 Water_CF_tables = Water_CF_tables * 10**6  # conversion from Mm3 to m3
 print(list(Water_CF_tables.index))
 ###########################################################################################################################################################################################
@@ -79,7 +77,7 @@ for n, year in enumerate(years):
 
     #S = pd.DataFrame(exiobase3.satellite.S)
     #Y = pd.DataFrame(exiobase3.Y)
-    #Y = Y.groupby(level= 0, axis = 1, sort = False).sum(1)   ### All consumption categories included
+
 
 ##################################################################################################################################################################################################################
 
@@ -218,7 +216,7 @@ for n, year in enumerate(years):
 
     exiobase3.satellite.S.to_csv("C:/Users/Cillian/PycharmProjects/Master-Thesis/data/Raw/EXIO3/check_S.csv")
     exiobase3.satellite.S_Y.to_csv("C:/Users/Cillian/PycharmProjects/Master-Thesis/data/Raw/EXIO3/check_S_Y.csv")
-
+    exiobase3.Y = exiobase3.Y.groupby(level= 0, axis = 1, sort = False).sum(1)   ### All consumption categories included
 ###########################################################################################################################################################################
 
     exiobase3.rename_regions({'AT': 'Austria', 'BE':'Belgium', 'BG':'Bulgaria','CZ':'Czech Republic', 'CY':'Cyprus', 'DE':'Germany', 'DK':'Denmark', 'EE':'Estonia',
@@ -241,7 +239,7 @@ for n, year in enumerate(years):
                           'Products of forestry, logging and related services (02)',
                           'Fish and other fishing products; services incidental of fishing (05)', 'Food products nec','Beverages', 'Sugar', 'Fish products', 'Dairy products',
                           'Products of meat cattle', 'Products of meat pigs', 'Products of meat poultry', 'Meat products nec', 'products of Vegetable oils and fats', 'Processed rice']]])  # Seggregating final consumer household demand
-    myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Biodiversity Footprint/EXIO3/BF_D_cba_' + year + '_LCIA_disaggregated_All_Y_categories.csv'
+    myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Biodiversity Footprint/EXIO3/BF_D_cba_2010_LCIA_disaggregted_Y_categories_agrifood_final_demand_continental_proxy_approach.csv'
     D_cba_biod.to_csv(myfile)
 
 
@@ -258,7 +256,7 @@ for n, year in enumerate(years):
                           'Fish and other fishing products; services incidental of fishing (05)', 'Food products nec','Beverages', 'Sugar', 'Fish products', 'Dairy products',
                           'Products of meat cattle', 'Products of meat pigs', 'Products of meat poultry', 'Meat products nec', 'products of Vegetable oils and fats', 'Processed rice']]])  # Seggregating final consumer household demand
 
-    myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Biodiversity Footprint/EXIO3/BF_D_pba_' + year + '_LCIA_disaggregated_All_Y_categories.csv'
+    myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Biodiversity Footprint/EXIO3/BF_D_pba_2010_LCIA_disaggregated_Y_categories_agrifood_final_demand_continental_proxy_approach.csv'
     D_pba.to_csv(myfile)
 
     exiobase3.satellite.D_imp = new_accounts[2]
@@ -270,7 +268,7 @@ for n, year in enumerate(years):
                           'Products of forestry, logging and related services (02)',
                           'Fish and other fishing products; services incidental of fishing (05)', 'Food products nec','Beverages', 'Sugar', 'Fish products', 'Dairy products',
                           'Products of meat cattle', 'Products of meat pigs', 'Products of meat poultry', 'Meat products nec', 'products of Vegetable oils and fats', 'Processed rice']]])  # Seggregating final consumer household demand
-    myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Biodiversity Footprint/EXIO3/BF_D_imp_' + year + '_LCIA_disaggregated_All_Y_categories.csv'
+    myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Biodiversity Footprint/EXIO3/BF_D_imp_2010_LCIA_disaggregated_Y_categories_agrifood_final_demand_continental_proxy_approach.csv'
     D_imp.to_csv(myfile)
 
     exiobase3.satellite.D_exp = new_accounts[3]
@@ -283,7 +281,7 @@ for n, year in enumerate(years):
                           'Fish and other fishing products; services incidental of fishing (05)', 'Food products nec','Beverages', 'Sugar', 'Fish products', 'Dairy products',
                           'Products of meat cattle', 'Products of meat pigs', 'Products of meat poultry', 'Meat products nec', 'products of Vegetable oils and fats', 'Processed rice']]])  # Seggregating final consumer household demand
 
-    myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Biodiversity Footprint/EXIO3/BF_D_exp_' + year + '_LCIA_disaggregated_household_All_Y_categories.csv'
+    myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Biodiversity Footprint/EXIO3/BF_D_exp_2010_LCIA_disaggregated_Y_categories_agrifood_final_demand_continental_proxy_approach.csv'
     D_exp.to_csv(myfile)
 
     #exiobase3.save_all('C:/Users/Cillian/PycharmProjects/Master-Thesis/data/interim/EXIO3')
@@ -297,4 +295,4 @@ for n, year in enumerate(years):
         #os.remove('C:/Users/Cillian/PycharmProjects/Master-Thesis/data/Raw/EXIO3/IOT_' + year + '_pxp.zip')
     #else:  ## Show an error ##
         #print("Error: file not found")
-    #del exiobase3 '''
+    del exiobase3
