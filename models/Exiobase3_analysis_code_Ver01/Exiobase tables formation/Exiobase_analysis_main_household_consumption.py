@@ -205,7 +205,13 @@ for n, year in enumerate(years):
         D_cba = pd.DataFrame(exiobase3.satellite.D_cba)
 
         D_cba = pd.DataFrame(
-            D_cba.loc[:, idx[:, ['Paddy rice','Wheat','Cereal grains nec','Vegetables, fruit, nuts','Oil seeds','Sugar cane, sugar beet','Plant-based fibers','Crops nec','Cattle','Pigs', 'Poultry', 'Meat animals nec', 'Animal products nec','Raw milk','Wool, silk-worm cocoons','Products of forestry, logging and related services (02)','Fish and other fishing products; services incidental of fishing (05)']]])  # Seggregating final consumer household demand
+            D_cba.loc[:, idx[:, ['Paddy rice', 'Wheat', 'Cereal grains nec', 'Vegetables, fruit, nuts', 'Oil seeds',
+                    'Sugar cane, sugar beet', 'Plant-based fibers', 'Crops nec', 'Cattle', 'Pigs', 'Poultry',
+                    'Meat animals nec', 'Animal products nec', 'Raw milk',
+                    'Fish and other fishing products; services incidental of fishing (05)', 'Food products nec',
+                    'Beverages', 'Sugar', 'Fish products', 'Dairy products',
+                    'Products of meat cattle', 'Products of meat pigs', 'Products of meat poultry', 'Meat products nec',
+                    'products of Vegetable oils and fats', 'Processed rice']]])  # Seggregating final consumer household demand
         D_cba.to_csv('C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Pressure Footprint/EXIO3/PF_D_cba_210_LCIA_aggregated_household_Y_category.csv')
 
 
@@ -214,10 +220,12 @@ for n, year in enumerate(years):
         D_pba = pd.DataFrame(exiobase3.satellite.D_pba)
         D_pba = pd.DataFrame(
             D_pba.loc[:, idx[:, ['Paddy rice', 'Wheat', 'Cereal grains nec', 'Vegetables, fruit, nuts', 'Oil seeds',
-                             'Sugar cane, sugar beet', 'Plant-based fibers', 'Crops nec', 'Cattle', 'Pigs', 'Poultry',
-                             'Meat animals nec', 'Animal products nec', 'Raw milk', 'Wool, silk-worm cocoons',
-                             'Products of forestry, logging and related services (02)',
-                             'Fish and other fishing products; services incidental of fishing (05)']]])  # Seggregating final consumer household demand
+                    'Sugar cane, sugar beet', 'Plant-based fibers', 'Crops nec', 'Cattle', 'Pigs', 'Poultry',
+                    'Meat animals nec', 'Animal products nec', 'Raw milk',
+                    'Fish and other fishing products; services incidental of fishing (05)', 'Food products nec',
+                    'Beverages', 'Sugar', 'Fish products', 'Dairy products',
+                    'Products of meat cattle', 'Products of meat pigs', 'Products of meat poultry', 'Meat products nec',
+                    'products of Vegetable oils and fats', 'Processed rice']]])  # Seggregating final consumer household demand
 
 
         D_pba.to_csv('C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Pressure Footprint/EXIO3/PF_D_pba_2010_LCIA_aggregated_household_Y_category.csv')
@@ -226,10 +234,12 @@ for n, year in enumerate(years):
         D_imp = pd.DataFrame(exiobase3.satellite.D_imp)
         D_imp = pd.DataFrame(
             D_imp.loc[:, idx[:, ['Paddy rice', 'Wheat', 'Cereal grains nec', 'Vegetables, fruit, nuts', 'Oil seeds',
-                             'Sugar cane, sugar beet', 'Plant-based fibers', 'Crops nec', 'Cattle', 'Pigs', 'Poultry',
-                             'Meat animals nec', 'Animal products nec', 'Raw milk', 'Wool, silk-worm cocoons',
-                             'Products of forestry, logging and related services (02)',
-                             'Fish and other fishing products; services incidental of fishing (05)']]])  # Seggregating final consumer household demand
+                    'Sugar cane, sugar beet', 'Plant-based fibers', 'Crops nec', 'Cattle', 'Pigs', 'Poultry',
+                    'Meat animals nec', 'Animal products nec', 'Raw milk',
+                    'Fish and other fishing products; services incidental of fishing (05)', 'Food products nec',
+                    'Beverages', 'Sugar', 'Fish products', 'Dairy products',
+                    'Products of meat cattle', 'Products of meat pigs', 'Products of meat poultry', 'Meat products nec',
+                    'products of Vegetable oils and fats', 'Processed rice']]])  # Seggregating final consumer household demand
 
 
         D_imp.to_csv('C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Pressure Footprint/EXIO3/PF_D_imp_2010_LCIA_aggregated_household_Y_category.csv')
@@ -238,10 +248,12 @@ for n, year in enumerate(years):
         D_exp = pd.DataFrame(exiobase3.satellite.D_exp)
         D_exp = pd.DataFrame(
             D_exp.loc[:, idx[:, ['Paddy rice', 'Wheat', 'Cereal grains nec', 'Vegetables, fruit, nuts', 'Oil seeds',
-                             'Sugar cane, sugar beet', 'Plant-based fibers', 'Crops nec', 'Cattle', 'Pigs', 'Poultry',
-                             'Meat animals nec', 'Animal products nec', 'Raw milk', 'Wool, silk-worm cocoons',
-                             'Products of forestry, logging and related services (02)',
-                             'Fish and other fishing products; services incidental of fishing (05)']]])  # Seggregating final consumer household demand
+                    'Sugar cane, sugar beet', 'Plant-based fibers', 'Crops nec', 'Cattle', 'Pigs', 'Poultry',
+                    'Meat animals nec', 'Animal products nec', 'Raw milk',
+                    'Fish and other fishing products; services incidental of fishing (05)', 'Food products nec',
+                    'Beverages', 'Sugar', 'Fish products', 'Dairy products',
+                    'Products of meat cattle', 'Products of meat pigs', 'Products of meat poultry', 'Meat products nec',
+                    'products of Vegetable oils and fats', 'Processed rice']]])  # Seggregating final consumer household demand
 
         D_exp.to_csv(
             'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Pressure Footprint/EXIO3/PF_D_exp_2010_LCIA_aggregated_household_Y_category.csv')
@@ -418,19 +430,23 @@ for n, year in enumerate(years):
 
         D_cba = pd.DataFrame(
             D_cba.loc[:, idx[:, ['Paddy rice', 'Wheat', 'Cereal grains nec', 'Vegetables, fruit, nuts', 'Oil seeds',
-                                 'Sugar cane, sugar beet', 'Plant-based fibers', 'Crops nec', 'Cattle', 'Pigs',
-                                 'Poultry', 'Meat animals nec', 'Animal products nec', 'Raw milk',
-                                 'Wool, silk-worm cocoons', 'Products of forestry, logging and related services (02)',
-                                 'Fish and other fishing products; services incidental of fishing (05)']]])  # Seggregating final consumer household demand
+                    'Sugar cane, sugar beet', 'Plant-based fibers', 'Crops nec', 'Cattle', 'Pigs', 'Poultry',
+                    'Meat animals nec', 'Animal products nec', 'Raw milk',
+                    'Fish and other fishing products; services incidental of fishing (05)', 'Food products nec',
+                    'Beverages', 'Sugar', 'Fish products', 'Dairy products',
+                    'Products of meat cattle', 'Products of meat pigs', 'Products of meat poultry', 'Meat products nec',
+                    'products of Vegetable oils and fats', 'Processed rice']]])  # Seggregating final consumer household demand
         myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Pressure Footprint/EXIO3/PF_D_cba_' + year + '_LCIA_disaggregated_household_Y_category.csv'
         D_cba.to_csv(myfile)
         ColumnX = list(D_cba.columns.levels[0])
         Column2 = []
         Product_categories = ['Paddy rice', 'Wheat', 'Cereal grains nec', 'Vegetables, fruit, nuts', 'Oil seeds',
-                              'Sugar cane, sugar beet', 'Plant-based fibers', 'Crops nec', 'Cattle', 'Pigs', 'Poultry',
-                              'Meat animals nec', 'Animal products nec', 'Raw milk', 'Wool, silk-worm cocoons',
-                              'Products of forestry, logging and related services (02)',
-                              'Fish and other fishing products; services incidental of fishing (05)']
+                    'Sugar cane, sugar beet', 'Plant-based fibers', 'Crops nec', 'Cattle', 'Pigs', 'Poultry',
+                    'Meat animals nec', 'Animal products nec', 'Raw milk',
+                    'Fish and other fishing products; services incidental of fishing (05)', 'Food products nec',
+                    'Beverages', 'Sugar', 'Fish products', 'Dairy products',
+                    'Products of meat cattle', 'Products of meat pigs', 'Products of meat poultry', 'Meat products nec',
+                    'products of Vegetable oils and fats', 'Processed rice']
 
         Column2 = ColumnX * len(Product_categories)
 
@@ -448,11 +464,12 @@ for n, year in enumerate(years):
         D_pba = pd.DataFrame(exiobase3.satellite.D_pba)
         D_pba = pd.DataFrame(
             D_pba.loc[:, idx[:, ['Paddy rice', 'Wheat', 'Cereal grains nec', 'Vegetables, fruit, nuts', 'Oil seeds',
-                                 'Sugar cane, sugar beet', 'Plant-based fibers', 'Crops nec', 'Cattle', 'Pigs',
-                                 'Poultry',
-                                 'Meat animals nec', 'Animal products nec', 'Raw milk', 'Wool, silk-worm cocoons',
-                                 'Products of forestry, logging and related services (02)',
-                                 'Fish and other fishing products; services incidental of fishing (05)']]])  # Seggregating final consumer household demand
+                    'Sugar cane, sugar beet', 'Plant-based fibers', 'Crops nec', 'Cattle', 'Pigs', 'Poultry',
+                    'Meat animals nec', 'Animal products nec', 'Raw milk',
+                    'Fish and other fishing products; services incidental of fishing (05)', 'Food products nec',
+                    'Beverages', 'Sugar', 'Fish products', 'Dairy products',
+                    'Products of meat cattle', 'Products of meat pigs', 'Products of meat poultry', 'Meat products nec',
+                    'products of Vegetable oils and fats', 'Processed rice']]])  # Seggregating final consumer household demand
 
         D_pba.to_csv(myfile)
         D_pba = pd.DataFrame(D_pba.values, index=D_pba.index, columns=column_multi_index)
@@ -460,11 +477,12 @@ for n, year in enumerate(years):
         D_imp = pd.DataFrame(exiobase3.satellite.D_imp)
         D_imp = pd.DataFrame(
             D_imp.loc[:, idx[:, ['Paddy rice', 'Wheat', 'Cereal grains nec', 'Vegetables, fruit, nuts', 'Oil seeds',
-                                 'Sugar cane, sugar beet', 'Plant-based fibers', 'Crops nec', 'Cattle', 'Pigs',
-                                 'Poultry',
-                                 'Meat animals nec', 'Animal products nec', 'Raw milk', 'Wool, silk-worm cocoons',
-                                 'Products of forestry, logging and related services (02)',
-                                 'Fish and other fishing products; services incidental of fishing (05)']]])  # Seggregating final consumer household demand
+                    'Sugar cane, sugar beet', 'Plant-based fibers', 'Crops nec', 'Cattle', 'Pigs', 'Poultry',
+                    'Meat animals nec', 'Animal products nec', 'Raw milk',
+                    'Fish and other fishing products; services incidental of fishing (05)', 'Food products nec',
+                    'Beverages', 'Sugar', 'Fish products', 'Dairy products',
+                    'Products of meat cattle', 'Products of meat pigs', 'Products of meat poultry', 'Meat products nec',
+                    'products of Vegetable oils and fats', 'Processed rice']]])  # Seggregating final consumer household demand
         myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Pressure Footprint/EXIO3/PF_D_imp_' + year + '_LCIA_disaggregated_household_Y_category.csv'
         D_imp.to_csv(myfile)
         D_imp = pd.DataFrame(D_imp.values, index=D_imp.index, columns=column_multi_index)
@@ -473,11 +491,12 @@ for n, year in enumerate(years):
         D_exp = pd.DataFrame(exiobase3.satellite.D_exp)
         D_exp = pd.DataFrame(
             D_exp.loc[:, idx[:, ['Paddy rice', 'Wheat', 'Cereal grains nec', 'Vegetables, fruit, nuts', 'Oil seeds',
-                                 'Sugar cane, sugar beet', 'Plant-based fibers', 'Crops nec', 'Cattle', 'Pigs',
-                                 'Poultry',
-                                 'Meat animals nec', 'Animal products nec', 'Raw milk', 'Wool, silk-worm cocoons',
-                                 'Products of forestry, logging and related services (02)',
-                                 'Fish and other fishing products; services incidental of fishing (05)']]])  # Seggregating final consumer household demand
+                    'Sugar cane, sugar beet', 'Plant-based fibers', 'Crops nec', 'Cattle', 'Pigs', 'Poultry',
+                    'Meat animals nec', 'Animal products nec', 'Raw milk',
+                    'Fish and other fishing products; services incidental of fishing (05)', 'Food products nec',
+                    'Beverages', 'Sugar', 'Fish products', 'Dairy products',
+                    'Products of meat cattle', 'Products of meat pigs', 'Products of meat poultry', 'Meat products nec',
+                    'products of Vegetable oils and fats', 'Processed rice']]])  # Seggregating final consumer household demand
 
         myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Pressure Footprint/EXIO3/PF_D_exp_' + year + '_LCIA_disaggregated_household_Y_category.csv'
         D_exp.to_csv(myfile)

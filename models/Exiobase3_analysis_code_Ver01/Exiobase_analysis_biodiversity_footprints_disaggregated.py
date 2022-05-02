@@ -52,6 +52,7 @@ LC_Impact_CF_tables.set_index('Stressor name', inplace = True)
 LC_Impact_CF_tables.rename(index = {'Permanent crops ': 'Permanent crops', 'Pasture ':'Pasture', 'Urban ':'Urban', 'Extensive forestry ': 'Extensive forestry', 'Intensive forestry ': 'Intensive forestry'}, inplace= True)
 LC_Impact_CF_tables.rename(columns = iso3_to_full_names_dict, inplace = True)
 LC_Impact_CF_tables.iloc[0:6,2:] = LC_Impact_CF_tables.iloc[0:6,2:].values * 10 ** 6  # conversion from m2 to km2 for land Characterisations, index 0-6 are the land CFs in the table
+LC_Impact_CF_tables.iloc[22:24, :] = LC_Impact_CF_tables.iloc[22:24,:]*(10**6) #coversion from m3 to Mm3 for Water consumption as per exiobase, index 22 and 23 are the water CFs in the table
 print(LC_Impact_CF_tables.iloc[0:6,2:])
 countries_Exiobase3 = list(LC_Impact_CF_tables.columns.values)
 countries_Exiobase3.pop(0)
@@ -216,7 +217,7 @@ for n, year in enumerate(years):
 
     exiobase3.satellite.S.to_csv("C:/Users/Cillian/PycharmProjects/Master-Thesis/data/Raw/EXIO3/check_S.csv")
     exiobase3.satellite.S_Y.to_csv("C:/Users/Cillian/PycharmProjects/Master-Thesis/data/Raw/EXIO3/check_S_Y.csv")
-    exiobase3.Y = exiobase3.Y.groupby(level= 0, axis = 1, sort = False).sum(1)   ### All consumption categories included
+    #exiobase3.Y = exiobase3.Y.groupby(level= 0, axis = 1, sort = False).sum(1)   ### All consumption categories included
 ###########################################################################################################################################################################
 
     exiobase3.rename_regions({'AT': 'Austria', 'BE':'Belgium', 'BG':'Bulgaria','CZ':'Czech Republic', 'CY':'Cyprus', 'DE':'Germany', 'DK':'Denmark', 'EE':'Estonia',
@@ -235,8 +236,7 @@ for n, year in enumerate(years):
     D_cba_biod = pd.DataFrame(
         D_cba_biod.loc[:, idx[:, ['Paddy rice', 'Wheat', 'Cereal grains nec', 'Vegetables, fruit, nuts', 'Oil seeds',
                           'Sugar cane, sugar beet', 'Plant-based fibers', 'Crops nec', 'Cattle', 'Pigs', 'Poultry',
-                          'Meat animals nec', 'Animal products nec', 'Raw milk', 'Wool, silk-worm cocoons',
-                          'Products of forestry, logging and related services (02)',
+                          'Meat animals nec', 'Animal products nec', 'Raw milk',
                           'Fish and other fishing products; services incidental of fishing (05)', 'Food products nec','Beverages', 'Sugar', 'Fish products', 'Dairy products',
                           'Products of meat cattle', 'Products of meat pigs', 'Products of meat poultry', 'Meat products nec', 'products of Vegetable oils and fats', 'Processed rice']]])  # Seggregating final consumer household demand
     myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Biodiversity Footprint/EXIO3/BF_D_cba_2010_LCIA_disaggregted_Y_categories_agrifood_final_demand_continental_proxy_approach.csv'
@@ -251,8 +251,7 @@ for n, year in enumerate(years):
     D_pba = pd.DataFrame(
         D_pba.loc[:, idx[:, ['Paddy rice', 'Wheat', 'Cereal grains nec', 'Vegetables, fruit, nuts', 'Oil seeds',
                           'Sugar cane, sugar beet', 'Plant-based fibers', 'Crops nec', 'Cattle', 'Pigs', 'Poultry',
-                          'Meat animals nec', 'Animal products nec', 'Raw milk', 'Wool, silk-worm cocoons',
-                          'Products of forestry, logging and related services (02)',
+                          'Meat animals nec', 'Animal products nec', 'Raw milk',
                           'Fish and other fishing products; services incidental of fishing (05)', 'Food products nec','Beverages', 'Sugar', 'Fish products', 'Dairy products',
                           'Products of meat cattle', 'Products of meat pigs', 'Products of meat poultry', 'Meat products nec', 'products of Vegetable oils and fats', 'Processed rice']]])  # Seggregating final consumer household demand
 
@@ -264,8 +263,7 @@ for n, year in enumerate(years):
     D_imp = pd.DataFrame(
         D_imp.loc[:, idx[:, ['Paddy rice', 'Wheat', 'Cereal grains nec', 'Vegetables, fruit, nuts', 'Oil seeds',
                           'Sugar cane, sugar beet', 'Plant-based fibers', 'Crops nec', 'Cattle', 'Pigs', 'Poultry',
-                          'Meat animals nec', 'Animal products nec', 'Raw milk', 'Wool, silk-worm cocoons',
-                          'Products of forestry, logging and related services (02)',
+                          'Meat animals nec', 'Animal products nec', 'Raw milk',
                           'Fish and other fishing products; services incidental of fishing (05)', 'Food products nec','Beverages', 'Sugar', 'Fish products', 'Dairy products',
                           'Products of meat cattle', 'Products of meat pigs', 'Products of meat poultry', 'Meat products nec', 'products of Vegetable oils and fats', 'Processed rice']]])  # Seggregating final consumer household demand
     myfile = 'C:/Users/Cillian/PycharmProjects/Master-Thesis/data/processed/Biodiversity Footprint/EXIO3/BF_D_imp_2010_LCIA_disaggregated_Y_categories_agrifood_final_demand_continental_proxy_approach.csv'
@@ -276,8 +274,7 @@ for n, year in enumerate(years):
     D_exp = pd.DataFrame(
         D_exp.loc[:, idx[:, ['Paddy rice', 'Wheat', 'Cereal grains nec', 'Vegetables, fruit, nuts', 'Oil seeds',
                           'Sugar cane, sugar beet', 'Plant-based fibers', 'Crops nec', 'Cattle', 'Pigs', 'Poultry',
-                          'Meat animals nec', 'Animal products nec', 'Raw milk', 'Wool, silk-worm cocoons',
-                          'Products of forestry, logging and related services (02)',
+                          'Meat animals nec', 'Animal products nec', 'Raw milk',
                           'Fish and other fishing products; services incidental of fishing (05)', 'Food products nec','Beverages', 'Sugar', 'Fish products', 'Dairy products',
                           'Products of meat cattle', 'Products of meat pigs', 'Products of meat poultry', 'Meat products nec', 'products of Vegetable oils and fats', 'Processed rice']]])  # Seggregating final consumer household demand
 

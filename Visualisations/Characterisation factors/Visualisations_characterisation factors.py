@@ -68,13 +68,21 @@ Water_CFs['Water consumption (median approach)'] = LC_impact_CF_median.loc['Wate
 Water_CFs['Water Consumption (average approach)'] = LC_impact_CF_average.loc['Water consumption - core '].values
 
 #print(Water_CFs['Water Consumption Blue - Agriculture - wheat'])
-
+#x = [0, 10**-16, 10**-15,10**-14]
+#default_x_ticks = range(0,4)
+#print(default_x_ticks)
 fig = plt.figure()
+sns.set(font_scale = 0.8)
 #print(Water_CFs[['Water Consumption Blue - Agriculture - wheat', 'Water Consumption (average approach)']])
 #print(Water_CFs.loc['Austria', 'Water Consumption Blue - Agriculture - wheat'])
 ax = sns.boxplot(data = Water_CFs, orient = 'h')
 ax.set_xscale('symlog')
-ax.set_xlim(0, 10e-14)
+#ax.xaxis.grid(True, which='minor')
+ax.set_xlabel('PDF.yr of species / m3', fontsize = 10)
+ax.grid(b=True, which='major', color='black', linewidth=0.075)
+ax.grid(b=True, which='minor', color='black', linewidth=0.075)
+ax.set_xlim(0, 10e-11)
+fig.suptitle('Distribution of disaggregated water related biodiversity impact characterisation factors for agricultural blue water consumption ', fontsize=  14)
 plt.show()
 #Water_CFs = np.log10(Water_CFs.values)
 
